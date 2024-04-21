@@ -20,3 +20,6 @@ It utilizes natural language processing (NLP) techniques to classify the sentime
    
 3. Run the application:
    ```Run the application```
+
+**Data**
+Add your topic of interests in the news lines of the topics.txt file.
