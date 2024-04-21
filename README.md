@@ -14,3 +14,9 @@ It utilizes natural language processing (NLP) techniques to classify the sentime
 
 1. Clone the repository:
    ``` git clone https://github.com/your-username/swiftnews.git ```
+   
+2. Install dependencies:
+   ```pip install -r requirements.txt```
+   
+3. Run the application:
+   ```Run the application```
