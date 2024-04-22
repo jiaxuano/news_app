@@ -3,8 +3,7 @@
 <a href="https://newsapp-kf4izafuxgmhgdtpbpz5hx.streamlit.app/" target="_blank">**SwiftNews** (Try Here)</a>
 
 
-**SwiftNews**
-SwiftNews is an application designed to streamline the consumption of news content from various sources. 
+**SwiftNews** is an application designed to streamline the consumption of news content from various sources. 
 It utilizes Large Language models (LLMs) to classify the sentiment of news articles, automatically summarize their content, and provide insightful analytics.
 
 **Features**
