@@ -44,4 +44,4 @@ You could automate the process by adding the following command in crontab -e
 - ```20 * * * * python_environment_location download_images.py_location >> image_log_file_location``` Download the images for the pulled news at every 20th min of an hour (Giving the news collection module 20 mins)
 - Run the model.py file to get the sentiment and summarization results for all the topics into their respective csv files under results folder
   ```python model.py```
-
+https://github.com/vineethgupthab/news_app/assets/138868502/4428d5e1-ec8b-4281-aabc-cd46c5d7db29
