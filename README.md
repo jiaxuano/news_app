@@ -34,6 +34,7 @@ Add your topic of interests in the news lines of the topics.txt file.
 - Users can then view summarized versions of the articles and explore analytics features to gain insights into the news landscape.
 
 **Customization**
+- Add the news topics in the new lines of topics.txt file
 - To schedule data collection:
 -- Modify the scheduling settings in the code to specify the frequency of data collection.
 -- Use tools like cron or Task Scheduler to automate the execution of the data collection script at specified intervals.
