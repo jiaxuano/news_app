@@ -1,3 +1,6 @@
+-- Developing Stage --
+
+
 **SwiftNews**
 SwiftNews is an application designed to streamline the consumption of news content from various sources. 
 It utilizes Large Language model (LLM) techniques to classify the sentiment of news articles, automatically summarize their content, and provide insightful analytics.
