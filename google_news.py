@@ -55,7 +55,7 @@ def get_all_articles_details(articles, keyword, count, old_titles):
                 if news['title'] not in old_titles:
                     try:
                         article = get_full_text(news,
-                                world_news_api_keys[count])
+                                                world_news_api_keys[count])
                     except Exception as e:
                         del articles[index]
                         continue
@@ -124,12 +124,14 @@ if __name__ == '__main__':
                 old_df = pd.read_csv(filename)
                 old_titles = old_df['title'].values
                 df = pd.DataFrame(get_google_news(topic,
-                        0, old_titles, start_date=start_date))
+                                                  0, old_titles,
+                                                  start_date=start_date))
                 old_df = pd.read_csv(filename)
                 df = pd.concat([old_df, df], ignore_index=True)
             else:
                 old_df = pd.read_csv('/Users/vineethguptha/\
                                      fhlbsf/news/First Republic Bank.csv')
-                df = pd.DataFrame(get_google_news(topic, 0, [],
-                        start_date=start_date), columns=old_df.columns)
+                df = pd.DataFrame(
+                    get_google_news(topic, 0, [], start_date=start_date),
+                    columns=old_df.columns)
             df.to_csv(filename, index=False)
