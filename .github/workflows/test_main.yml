@@ -18,6 +18,8 @@ jobs:
         pip install pandas
         pip install streamlit
         pip install tqdm
+        pip install langchain
+        
     - name: Run tests
       run: |
         python -m unittest discover -s . -p 'test_*.py'
