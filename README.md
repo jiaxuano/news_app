@@ -28,5 +28,5 @@ Add your topic of interests in the news lines of the topics.txt file.
 - Through Cronjobs, We could automate the data collection process.
 We have scheduled the collection on 2 datas. One for News collection and the other is for Image collection.
 You could automate the process by adding the following command in crontab -e
-- ```0 * * * * python_environment_location google_news.py_location >> log_file```
-- ```0 * * * * python_environment_location download_images.py_location >> image_log_file```
+- ```0 * * * * python_environment_location google_news.py_location >> log_file``` for getting news and the news content
+- ```0 * * * * python_environment_location download_images.py_location >> image_log_file``` for downloading the images of the news
