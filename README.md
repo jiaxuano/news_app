@@ -1,6 +1,6 @@
 **SwiftNews**
 SwiftNews is an application designed to streamline the consumption of news content from various sources. 
-It utilizes natural language processing (NLP) techniques to classify the sentiment of news articles, automatically summarize their content, and provide insightful analytics.
+It utilizes Large Language model (LLM) techniques to classify the sentiment of news articles, automatically summarize their content, and provide insightful analytics.
 
 **Features**
 - **News Aggregation:** Pulls news articles from multiple sources to provide a comprehensive view of current events.
