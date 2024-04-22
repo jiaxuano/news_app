@@ -32,6 +32,8 @@ Add your topic of interests in the news lines of the topics.txt file.
 - Upon launching the application, users can select their preferred news topics and sources.
 - The application will fetch news articles from the selected sources and classify their sentiment.
 - Users can then view summarized versions of the articles and explore analytics features to gain insights into the news landscape.
+
+**Customization**
 - To schedule data collection:
 -- Modify the scheduling settings in the code to specify the frequency of data collection.
 -- Use tools like cron or Task Scheduler to automate the execution of the data collection script at specified intervals.
