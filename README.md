@@ -1,6 +1,6 @@
 -- Developing Stage --
 
-<a href="https://newsapp-kf4izafuxgmhgdtpbpz5hx.streamlit.app/" target="_blank">Link to the application</a>
+<a href="https://newsapp-kf4izafuxgmhgdtpbpz5hx.streamlit.app/" target="_blank">**SwiftNews** (Try Here)</a>
 
 
 **SwiftNews**
