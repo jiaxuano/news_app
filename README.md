@@ -1,5 +1,7 @@
 -- Developing Stage --
 
+<a href="https://newsapp-kf4izafuxgmhgdtpbpz5hx.streamlit.app/" target="_blank">Link to the application</a>
+
 
 **SwiftNews**
 SwiftNews is an application designed to streamline the consumption of news content from various sources. 
