@@ -41,7 +41,7 @@ It utilizes Large Language models (LLMs) to classify the sentiment of news artic
 We have scheduled the collection on 2 datas. One for News collection and the other is for Image collection.
 You could automate the process by adding the following command in crontab -e
 - ```0 * * * * python_environment_location google_news.py_location >> log_file_location``` Fetch the news related to the topic for every hour
-- ```20 * * * * python_environment_location download_images.py_location >> image_log_file_location``` Download the images for the pulled news at every 20th min of an hour (Giving the news collection module 20 mins)
+- ```20 * * * * python_environment_location download_images.py_location >> image_log_file_location``` Start downloading the images for the pulled news at every 20th min of an hour (Giving the news collection module 20 mins)
 - Run the model.py file to get the sentiment and summarization results for all the topics into their respective csv files under results folder
   ```python model.py```
 
