@@ -42,3 +42,5 @@ We have scheduled the collection on 2 datas. One for News collection and the oth
 You could automate the process by adding the following command in crontab -e
 - ```0 * * * * python_environment_location google_news.py_location >> log_file_location``` for getting news and the news content
 - ```0 * * * * python_environment_location download_images.py_location >> image_log_file_location``` for downloading the images of the news
+
+![Uploading Screenshot 2024-04-21 at 5.46.32 PM.png…]()
