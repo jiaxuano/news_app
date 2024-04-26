@@ -15,7 +15,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install streamlit pandas plotly pillow tqdm matplotlib
+        pip install streamlit pandas plotly pillow tqdm matplotlib plotly-express
         
     - name: Run tests
       run: |
