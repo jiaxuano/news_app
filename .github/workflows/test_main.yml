@@ -20,6 +20,7 @@ jobs:
         pip install tqdm
         pip install langchain
         pip install plotly
+        pip install plotly-express
         
     - name: Run tests
       run: |
