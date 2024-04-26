@@ -19,6 +19,7 @@ jobs:
         pip install streamlit
         pip install tqdm
         pip install langchain
+        pip install plotly
         
     - name: Run tests
       run: |
