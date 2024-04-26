@@ -15,6 +15,8 @@ topics = {
 def load_data(topic_name):
     df = pd.read_csv(dataset_path + topics[topic_name])
     df = df.sort_values(by='publish_date', ascending=False)
+    df = df[df['summaries']!='Not-related content']
+    df = df[df['summaries']!='Not-related content.']
     return df
 
 # Load initial dataset
