@@ -1,7 +1,5 @@
 import streamlit as st
 import pandas as pd
-from PIL import Image
-import matplotlib as plt
 
 # Define the path for the datasets
 dataset_path = 'results/'
@@ -34,115 +32,6 @@ topic_selection = st.sidebar.selectbox('Choose a topic', options=list(topics.key
 if st.sidebar.button('Analysis'):
     st.sidebar.write("You are at the Analysis view.")
     # Define the analysis action
-
-    # Sample data
-    data = pd.DataFrame({
-        'topic': ['Federal Home Loan Bank of San Francisco', 'Fannie Mae', 'Federal Home Loan Bank of San Francisco', 'Fannie Mae', 'Federal Home Loan Bank of San Francisco', 'Fannie Mae', 'Federal Home Loan Bank of San Francisco', 'Fannie Mae', 'Federal Home Loan Bank of San Francisco', 'Fannie Mae', 'Federal Home Loan Bank of San Francisco', 'Fannie Mae'],
-        'week': [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6],
-        'month': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        'quarter': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        'article_count': [10, 15, 12, 18, 14, 20, 16, 22, 18, 25, 20, 28],
-        'sentiment': [0.7, 0.6, 0.8, 0.5, 0.6, 0.7, 0.8, 0.6, 0.7, 0.8, 0.9, 0.7],
-        'positive_sentences': ['Great technology!', 'Exciting sports event!', 'Amazing innovation!', 'Thrilling match!', 'Cutting-edge tech!', 'Impressive performance!', 'Groundbreaking invention!', 'Spectacular game!', 'Revolutionary product!', 'Unforgettable moment!', 'Future is here!', 'Incredible athlete!'],
-        'negative_sentences': ['Technical issue', 'Poor sportsmanship', 'Buggy software', 'Disappointing result', 'Compatibility problems', 'Controversial decision', 'Security breach', 'Unsportsmanlike conduct', 'System failure', 'Injury concerns', 'Outdated technology', 'Doping allegations']
-    })
-
-    # Define the topics and time periods
-    topics = ['Federal Home Loan Bank of San Francisco', 'Fannie Mae']
-    time_periods = ['Week', 'Month', 'Quarter']
-
-    # Main page for user inputs
-    st.markdown(f"<h1 style='text-align: center; color: #005A8D;'> Company Analysis</h1>", unsafe_allow_html=True)
-
-    col1, col2 = st.columns(2)
-
-    with col1:
-        selected_topic = st.selectbox('Select the Member', topics)
-
-    with col2:
-        selected_time_period = st.selectbox('Select time period', time_periods)
-
-    st.markdown("---", unsafe_allow_html=True)  # Horizontal line
-
-    col1, col2, col3 = st.columns(3)
-
-    # First section: Number of articles over time and positive sentences
-    with col1:
-        filtered_data = data[data['topic'] == selected_topic]
-
-        if selected_time_period == 'Week':
-            x_axis = 'week'
-            title = 'Number of Articles per Week'
-        elif selected_time_period == 'Month':
-            x_axis = 'month'
-            title = 'Number of Articles per Month'
-        else:
-            x_axis = 'quarter'
-            title = 'Number of Articles per Quarter'
-
-        fig, ax = plt.pyplot.subplots()
-        ax.plot(filtered_data[x_axis], filtered_data['article_count'])
-        ax.set_title(title)
-        ax.set_xlabel(selected_time_period)
-        ax.set_ylabel('Number of Articles')
-        st.pyplot(fig)
-
-        positive_sentences = filtered_data['positive_sentences'].tolist()
-        st.subheader('Positive News')
-        st.markdown("<ul style='list-style-type: disc; padding-left: 20px; text-align: center;'>", unsafe_allow_html=True)
-        for sentence in positive_sentences:
-            st.markdown(f"<li style='color: #006E8D;'>{sentence}</li>", unsafe_allow_html=True)
-        st.markdown("</ul>", unsafe_allow_html=True)
-
-    # Second section: Sentiment over time and negative sentences
-    with col2:
-        fig, ax = plt.pyplot.subplots()
-        ax.plot(filtered_data[x_axis], filtered_data['sentiment'], color='red')
-        ax.set_title(f'Sentiment over {selected_time_period}')
-        ax.set_xlabel(selected_time_period)
-        ax.set_ylabel('Sentiment Score')
-        st.pyplot(fig)
-
-        negative_sentences = filtered_data['negative_sentences'].tolist()
-        st.subheader('Negative News')
-        st.markdown("<ul style='list-style-type: disc; padding-left: 20px; text-align: center;'>", unsafe_allow_html=True)
-        for sentence in negative_sentences:
-            st.markdown(f"<li style='color: #FF5733;'>{sentence}</li>", unsafe_allow_html=True)
-        st.markdown("</ul>", unsafe_allow_html=True)
-
-    # Third section: Image, today's sentiment, number of articles today
-    with col3:
-        if selected_topic == 'Federal Home Loan Bank of San Francisco':
-            image = Image.open('New Research on AI in Mortgage Finance Identifies Opportunities to Advance Racial Equity in Homeownership, Pitfalls ... - GlobeNewswire.jpg')  # Replace with actual path
-        elif selected_topic == 'Fannie Mae':
-            image = Image.open('./Fannie-Mae-Logo.png')  # Replace with actual path
-
-        today_data = filtered_data[filtered_data[x_axis] == filtered_data[x_axis].max()]
-        articles_today = today_data['article_count'].sum()
-        sentiment_today = today_data['sentiment'].mean()
-
-        st.markdown(f'<p style="color: #005A8D; font-size: 18px; text-align: center;">Number of news articles released today: {articles_today}</p>', unsafe_allow_html=True)
-        st.image(image, caption=f'Image for {selected_topic}', use_column_width=True)
-
-    # Set background color for the Streamlit app container
-    st.markdown(
-        """
-        <style>
-        .stApp {
-            background-color: #F0F2F6; /* Light gray */
-        }
-        .stImage > img {
-            background-color: #F0F2F6; /* Light gray */
-            border-radius: 10px; /* Optional: Add rounded corners */
-        }
-        .stPlot > div {
-            background-color: #F0F2F6; /* Light gray */
-            border-radius: 10px; /* Optional: Add rounded corners */
-        }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
 
 if st.sidebar.button('Learn'):
     company_name = topic_selection.replace(' ', '_')
