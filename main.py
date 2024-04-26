@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 from PIL import Image
-import matplotlib.pyplot as plt
+import matplotlib as plt
 
 # Define the path for the datasets
 dataset_path = 'results/'
@@ -80,7 +80,7 @@ if st.sidebar.button('Analysis'):
             x_axis = 'quarter'
             title = 'Number of Articles per Quarter'
 
-        fig, ax = plt.subplots()
+        fig, ax = plt.pyplot.subplots()
         ax.plot(filtered_data[x_axis], filtered_data['article_count'])
         ax.set_title(title)
         ax.set_xlabel(selected_time_period)
@@ -96,7 +96,7 @@ if st.sidebar.button('Analysis'):
 
     # Second section: Sentiment over time and negative sentences
     with col2:
-        fig, ax = plt.subplots()
+        fig, ax = plt.pyplot.subplots()
         ax.plot(filtered_data[x_axis], filtered_data['sentiment'], color='red')
         ax.set_title(f'Sentiment over {selected_time_period}')
         ax.set_xlabel(selected_time_period)
