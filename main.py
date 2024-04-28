@@ -37,6 +37,7 @@ def load_data(topic_name):
     df = pd.read_csv(dataset_path + topics_dict[topic_name])
     df = df.sort_values(by='publish_date', ascending=False)
     df = df[df['summaries'] != 'Not-related content']
+    df = df[df['summaries'] != 'Not-related content.']
     return df
 
 # Initialize session state for current news index
