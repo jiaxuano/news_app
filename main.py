@@ -19,17 +19,26 @@ dataset_path = 'results/'
 # Define topics and corresponding file names
 topics_dict = {
     'Fannie Mae': 'fannie mae.csv',
+    # 'Tesla' : 'tesla.csv',
+    'Meta' : 'meta.csv',
+    'Apple' : 'apple company.csv',
+    # 'Google' : 'google.csv',
     'Federal Home Loan Bank of San Francisco': 'Federal Home Loan Bank of San Francisco.csv',
     'First Republic Bank': 'First Republic Bank.csv'
 }
 
 analysis_data = pd.DataFrame({
-    'topic': ['Federal Home Loan Bank of San Francisco', 'Fannie Mae'] * 6,
-    'week': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-    'month': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-    'quarter': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    'topic': ['Federal Home Loan Bank of San Francisco', 'Fannie Mae', 'Meta', 'Apple'] * 3,
+    'week' : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    'month' : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    'quarter' : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    'week_count': [9, 10, 10, 7, 9, 7, 6, 8, 5, 9, 11, 8],
+    'month_count': [36, 25, 40, 42, 17, 18, 12, 20, 15, 17, 9, 7],
+    'quarter_count': [114, 123, 131, 167, 200, 144, 176, 139, 110, 135, 108, 90],
     'article_count': [10, 15, 12, 18, 14, 20, 16, 22, 18, 25, 20, 28],
-    'sentiment': [0.7, 0.6, 0.8, 0.5, 0.6, 0.7, 0.8, 0.6, 0.7, 0.8, 0.9, 0.7],
+    'week_sentiment': [0.72,0.82,0.10,-0.34,0.78,-0.42,-0.86,0.79,0.33,0.12,-0.93,-0.28],
+    'month_sentiment': [0.30, -0.44,-0.37,0.81,0.88,0.79,-0.27,0.64,0.91,0.67,0.58,-0.24], 
+    'quarter_sentiment' : [0.70,-0.54,0.30,-0.35,0.39,0.97,-0.27,0.01,-0.34,0.41,-0.89,-0.83],
     'positive_sentences': ['Great technology!', 'Exciting sports event!', 'Amazing innovation!', 'Thrilling match!', 'Cutting-edge tech!', 'Impressive performance!', 'Groundbreaking invention!', 'Spectacular game!', 'Revolutionary product!', 'Unforgettable moment!', 'Future is here!', 'Incredible athlete!'],
     'negative_sentences': ['Technical issue', 'Poor sportsmanship', 'Buggy software', 'Disappointing result', 'Compatibility problems', 'Controversial decision', 'Security breach', 'Unsportsmanlike conduct', 'System failure', 'Injury concerns', 'Outdated technology', 'Doping allegations']
 })
@@ -191,15 +200,23 @@ elif selected_section == "Analysis":
 
         if selected_time_period == 'Week':
             x_axis = 'week'
+            y_axis = 'week_count'
+            y_sentiment = 'week_sentiment'
             title = 'Number of Articles per Week'
+
         elif selected_time_period == 'Month':
             x_axis = 'month'
+            y_axis = 'month_count'
+            y_sentiment = 'month_sentiment'
             title = 'Number of Articles per Month'
         else:
             x_axis = 'quarter'
+            y_axis = 'quarter_count'
+            y_sentiment = 'quarter_sentiment'
             title = 'Number of Articles per Quarter'
 
-        article_count_plot = px.line(filtered_data, x=x_axis, y='article_count', title=title)
+        # article_count_plot = px.line(filtered_data, x=x_axis, y='article_count', title=title)
+        article_count_plot = px.line(filtered_data, x=x_axis, y=y_axis, title=title)
         article_count_plot.update_layout(xaxis_title=f'{selected_time_period}', yaxis_title='Number of Articles', plot_bgcolor='#F4F6F9', paper_bgcolor='#F4F6F9')
         article_count_plot.update_layout(title={'x':0.5, 'xanchor': 'center'})
         st.plotly_chart(article_count_plot, use_container_width=True)
@@ -213,7 +230,8 @@ elif selected_section == "Analysis":
 
     # Second section: Sentiment over time and negative sentences
     with col2:
-        sentiment_plot = px.line(filtered_data, x=x_axis, y='sentiment', title=f'Sentiment over {selected_time_period}')
+        sentiment_plot = px.line(filtered_data, x=x_axis, y=y_sentiment, title=f'Sentiment over {selected_time_period}')
+        # sentiment_plot = px.line(filtered_data, x=x_axis, y='sentiment', title=f'Sentiment over {selected_time_period}')
         sentiment_plot.update_layout(xaxis_title=f'{selected_time_period}', yaxis_title='Sentiment Score', plot_bgcolor='#F4F6F9', paper_bgcolor='#F4F6F9')
         sentiment_plot.update_layout(title={'x':0.5, 'xanchor': 'center'})
         sentiment_plot.update_traces(line_color='#FF5733')  # Change the line color to red
@@ -256,13 +274,21 @@ elif selected_section == "Analysis":
             image_path = 'Fannie-Mae-Logo.png'
         elif selected_topic == 'First Republic Bank':
             image_path = 'First-Republic-Bank-Logo.png'
+        elif selected_topic == 'Apple':
+            image_path = 'Apple-Logo.png'
+        # elif selected_topic == 'Google':
+        #     image_path = 'Google-Logo.png'
+        elif selected_topic == 'Meta':
+            image_path = 'Meta-Logo.png'
+        # elif selected_topic == 'Tesla':
+        #     image_path = 'Tesla.png'
 
         image = Image.open(image_path)
         st.image(image, caption=f'Image for {selected_topic}', use_column_width=True)
 
         today_data = filtered_data[filtered_data[x_axis] == filtered_data[x_axis].max()]
         articles_today = today_data['article_count'].sum()
-        sentiment_today = today_data['sentiment'].mean()
+        sentiment_today = today_data['week_sentiment'].mean()
 
         st.markdown(f'<p style="color: #005A8D; font-size: 18px; text-align: center;">Number of news articles released today: {articles_today}</p>', unsafe_allow_html=True)
         st.plotly_chart(fig, use_container_width=True)
