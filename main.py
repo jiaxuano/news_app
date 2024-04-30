@@ -90,8 +90,17 @@ if selected_section == "Home":
 
                             st.image(row['image'], use_column_width=True)
                             st.markdown(f"<h1 style='font-size: 36px;'>{row['title']}</h1>", unsafe_allow_html=True)
-                            st.markdown(f"**Publisher:** {row['publisher']}", unsafe_allow_html=True)
-                            st.markdown(f"**Published Date:** {row['publish_date']}", unsafe_allow_html=True)
+                            
+                            # Format the published date to exclude the time and align publisher to the right
+                            published_date = row['publish_date'].strftime('%Y-%m-%d')
+                            date_publisher_html = f"""
+                                <div style='display: flex; justify-content: space-between; align-items: center;'>
+                                    <span><b>Published Date:</b> {published_date}</span>
+                                    <span><b>Publisher:</b> {row['publisher']}</span>
+                                </div>
+                                """
+                            st.markdown(date_publisher_html, unsafe_allow_html=True)
+
                             st.text_area("Summary", row['summaries'], height=150)
                             st.markdown(f"<p style='color: {sentiment_color};'>**Article Sentiment:** {sentiment_value}</p>", unsafe_allow_html=True)
                             st.markdown(f"[Read full article]({row['url']})", unsafe_allow_html=True)
@@ -112,12 +121,10 @@ if selected_section == "News by Topics":
     def show_news(index):
         with st.container():
             col1, col2, col3 = st.columns([1, 4, 1])  # Adjust the ratio as needed
-            # with col1:
-            #     st.write("")  # For vertical spacing
             with col1:
                 if st.button('Previous Story'):
                     if st.session_state.current_index > 0:
-                        st.session_state.current_index += 1
+                        st.session_state.current_index -= 1  # Correct the decrement logic
             with col2:
                 # Get sentiment value and determine color
                 sentiment_value = df.iloc[index]['default_sentiment']
@@ -134,13 +141,19 @@ if selected_section == "News by Topics":
                 # Display title, published date, link, summary, and sentiment
                 title = df.iloc[index]['title']
                 st.markdown(f"<h1 style='font-size: 36px;'>{title}</h1>", unsafe_allow_html=True)
+                
+                # Format the published date to exclude the time
+                published_date = df.iloc[index]['publish_date'].strftime('%Y-%m-%d')
+                
+                # Create a markdown string for published date and publisher
+                date_publisher_html = f"""
+                    <div>
+                        <span><b>Published Date:</b> {published_date}</span>
+                        <span style="float: right;"><b>Publisher:</b> {df.iloc[index]['publisher']}</span>
+                    </div>
+                    """
+                st.markdown(date_publisher_html, unsafe_allow_html=True)
 
-                publisher = df.iloc[index]['publisher']
-                st.markdown(f"**Publisher:** {publisher}", unsafe_allow_html=True)
-                
-                published_date = df.iloc[index]['publish_date']
-                st.markdown(f"**Published Date:** {published_date}", unsafe_allow_html=True)
-                
                 summary = df.iloc[index]['summaries']
                 st.text_area("Summary", summary, height=150)
                 
@@ -153,7 +166,6 @@ if selected_section == "News by Topics":
                 if st.button('Next Story'):
                     if st.session_state.current_index < len(df) - 1:
                         st.session_state.current_index += 1
-
     # Display the current news item or the first item by default
     show_news(st.session_state.current_index)
 
