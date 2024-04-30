@@ -48,7 +48,7 @@ if 'current_index' not in st.session_state:
     st.session_state.current_index = 0
 
 # Main page logic based on navigation selection
-selected_section = st.sidebar.radio("Go to", ["Home", "Topics", "Analysis"])
+selected_section = st.sidebar.radio("Go to", ["Home", "News by Topics", "Analysis"])
 
 if selected_section == "Home":
     st.markdown("<h1 style='text-align: center; color: #005A8D;'>Latest News</h1>", unsafe_allow_html=True)
@@ -105,7 +105,7 @@ if selected_section == "Home":
         st.write("No recent news available.")
 
 
-if selected_section == "Topics":
+if selected_section == "News by Topics":
     topic_selection = st.sidebar.selectbox('Choose a topic', options=list(topics_dict.keys()))
     df = load_data(topic_selection)
 
