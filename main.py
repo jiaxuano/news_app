@@ -20,13 +20,10 @@ dataset_path = 'results/'
 # Because keys are defined kind of inconsistently lower case key definitions exist :/
 topics_dict = {
     'Fannie Mae': 'fannie mae.csv',
-    'fannie mae': 'fannie mae.csv',
 
     # 'Tesla' : 'tesla.csv',
     'Meta' : 'meta.csv',
-    'meta' : 'meta.csv',
     'Apple' : 'apple company.csv',
-    'apple company' : 'apple company.csv',
 
     # 'Google' : 'google.csv',
     'Federal Home Loan Bank of San Francisco': 'Federal Home Loan Bank of San Francisco.csv',
