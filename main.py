@@ -2,7 +2,10 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 from PIL import Image
+from datetime import datetime, timedelta
 import plotly.graph_objects as go
+import io
+import requests
 
 # Set page configuration
 st.set_page_config(layout="wide", page_title="SwiftNews Analysis Dashboard")
@@ -20,7 +23,6 @@ topics_dict = {
     'First Republic Bank': 'First Republic Bank.csv'
 }
 
-# Sample data for analysis
 analysis_data = pd.DataFrame({
     'topic': ['Federal Home Loan Bank of San Francisco', 'Fannie Mae'] * 6,
     'week': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
@@ -35,9 +37,10 @@ analysis_data = pd.DataFrame({
 # Function to load and sort data
 def load_data(topic_name):
     df = pd.read_csv(dataset_path + topics_dict[topic_name])
+    df['publish_date'] = pd.to_datetime(df['publish_date'])
     df = df.sort_values(by='publish_date', ascending=False)
-    df = df[df['summaries'] != 'Not-related content']
-    df = df[df['summaries'] != 'Not-related content.']
+    # df = df[df['summaries'] != 'Not-related content']
+    # df = df[df['summaries'] != 'Not-related content.']
     return df
 
 # Initialize session state for current news index
@@ -45,9 +48,64 @@ if 'current_index' not in st.session_state:
     st.session_state.current_index = 0
 
 # Main page logic based on navigation selection
-selected_section = st.sidebar.radio("Go to", ["Home", "Analysis"])
+selected_section = st.sidebar.radio("Go to", ["Home", "Topics", "Analysis"])
 
 if selected_section == "Home":
+    st.markdown("<h1 style='text-align: center; color: #005A8D;'>Latest News</h1>", unsafe_allow_html=True)
+    latest_date = datetime.now() - timedelta(days=3)
+    recent_news_list = []
+
+    for topic in topics_dict:
+        df = load_data(topic)
+        last_three_dates = df['publish_date'].drop_duplicates().nlargest(3)
+        recent_news = df[df['publish_date'].isin(last_three_dates)]
+        recent_news_list.append(recent_news)
+
+    if recent_news_list:
+        df = pd.concat(recent_news_list)
+        if df.empty:
+            st.write("No recent news available.")
+        else:
+            # Ensure current index is within the bounds
+            max_index = len(df) - 1
+            if st.session_state.current_index > max_index:
+                st.session_state.current_index = max_index
+
+            def show_news(index):
+                if index >= 0 and index <= max_index:
+                    with st.container():
+                        col1, col2, col3 = st.columns([1, 4, 1])
+                        with col1:
+                            if st.button('Previous Story'):
+                                st.session_state.current_index = max(0, index - 1)
+                        with col2:
+                            row = df.iloc[index]
+                            # Get sentiment value and determine color
+                            sentiment_value = row.get('default_sentiment', 0)  # Use get for safe access
+                            sentiment_color = "#000000"  # Default black color
+                            if sentiment_value > 0:
+                                sentiment_color = "#008000"  # Green color
+                            elif sentiment_value < 0:
+                                sentiment_color = "#FF0000"  # Red color
+
+                            st.image(row['image'], use_column_width=True)
+                            st.markdown(f"<h1 style='font-size: 36px;'>{row['title']}</h1>", unsafe_allow_html=True)
+                            st.markdown(f"**Publisher:** {row['publisher']}", unsafe_allow_html=True)
+                            st.markdown(f"**Published Date:** {row['publish_date']}", unsafe_allow_html=True)
+                            st.text_area("Summary", row['summaries'], height=150)
+                            st.markdown(f"<p style='color: {sentiment_color};'>**Article Sentiment:** {sentiment_value}</p>", unsafe_allow_html=True)
+                            st.markdown(f"[Read full article]({row['url']})", unsafe_allow_html=True)
+                        with col3:
+                            if st.button('Next Story'):
+                                st.session_state.current_index = min(max_index, index + 1)
+
+            # Display the current news item
+            show_news(st.session_state.current_index)
+    else:
+        st.write("No recent news available.")
+
+
+if selected_section == "Topics":
     topic_selection = st.sidebar.selectbox('Choose a topic', options=list(topics_dict.keys()))
     df = load_data(topic_selection)
 
@@ -76,6 +134,9 @@ if selected_section == "Home":
                 # Display title, published date, link, summary, and sentiment
                 title = df.iloc[index]['title']
                 st.markdown(f"<h1 style='font-size: 36px;'>{title}</h1>", unsafe_allow_html=True)
+
+                publisher = df.iloc[index]['publisher']
+                st.markdown(f"**Publisher:** {publisher}", unsafe_allow_html=True)
                 
                 published_date = df.iloc[index]['publish_date']
                 st.markdown(f"**Published Date:** {published_date}", unsafe_allow_html=True)
@@ -83,21 +144,10 @@ if selected_section == "Home":
                 summary = df.iloc[index]['summaries']
                 st.text_area("Summary", summary, height=150)
                 
-                st.markdown(f"<p style='color: {sentiment_color};'>**Sentiment:** {sentiment_value}</p>", unsafe_allow_html=True)
+                st.markdown(f"<p style='color: {sentiment_color};'>**Article Sentiment:** {sentiment_value}</p>", unsafe_allow_html=True)
 
                 link = df.iloc[index]['url']
                 st.markdown(f"[Read full article]({link})", unsafe_allow_html=True)
-
-            # Navigation buttons for stories
-            # with col1:
-            #     if st.button('Previous Story'):
-            #         if st.session_state.current_index > 0:
-            #             st.session_state.current_index -= 1
-
-            # with col3:
-            #     if st.button('Next Story'):
-            #         if st.session_state.current_index < len(df) - 1:
-            #             st.session_state.current_index += 1
 
             with col3:
                 if st.button('Next Story'):
@@ -106,10 +156,6 @@ if selected_section == "Home":
 
     # Display the current news item or the first item by default
     show_news(st.session_state.current_index)
-
-# elif selected_section == "Topic News":
-#     st.markdown("<h1 style='text-align: center; color: #005A8D;'>Topic News</h1>", unsafe_allow_html=True)
-#     # Implement specific code for displaying news by topic if needed
 
 elif selected_section == "Analysis":
     st.markdown("<h1 style='text-align: center; color: #005A8D;'>Analysis</h1>", unsafe_allow_html=True)
