@@ -51,7 +51,7 @@ if 'current_index' not in st.session_state:
 selected_section = st.sidebar.radio("Go to", ["Home", "News by Topics", "Analysis"])
 
 if selected_section == "Home":
-    st.markdown("<h1 style='text-align: center; color: #005A8D;'>Latest News</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center; color: #005A8D;'>SwiftNews Trending</h1>", unsafe_allow_html=True)
     latest_date = datetime.now() - timedelta(days=3)
     recent_news_list = []
 
