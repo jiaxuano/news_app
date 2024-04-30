@@ -20,10 +20,13 @@ dataset_path = 'results/'
 # Because keys are defined kind of inconsistently lower case key definitions exist :/
 topics_dict = {
     'Fannie Mae': 'fannie mae.csv',
+    'fannie mae': 'fannie mae.csv',
 
     # 'Tesla' : 'tesla.csv',
     'Meta' : 'meta.csv',
+    'meta' : 'meta.csv',
     'Apple' : 'apple company.csv',
+    'apple company' : 'apple company.csv',
 
     # 'Google' : 'google.csv',
     'Federal Home Loan Bank of San Francisco': 'Federal Home Loan Bank of San Francisco.csv',
@@ -215,7 +218,7 @@ if selected_section == "News by Topics":
 #     col1, col2 = st.columns(2)
 
 #     with col1:
-#         selected_topic = st.selectbox('Select the Topic', topics_dict.keys())
+#         selected_topic = st.selectbox('Select the Member', topics_dict.keys())
 
 #     with col2:
 #         selected_time_period = st.selectbox('Select time period', ['Week', 'Month', 'Quarter'])
@@ -281,7 +284,7 @@ elif selected_section == "Analysis":
 
     col1, col2 = st.columns(2)
     with col1:
-        selected_topic = st.selectbox('Select the Topic', bulletpoints['topic'].unique())
+        selected_topic = st.selectbox('Select the Member', bulletpoints['topic'].unique())
     with col2:
         selected_time_period = st.selectbox('Select time period', ['Week', 'Month', 'Quarter'])
         timeframe_days = {'Week': 7, 'Month': 30, 'Quarter': 90}
