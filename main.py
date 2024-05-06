@@ -404,7 +404,7 @@ elif selected_section == "Analysis":
         # Define image_path with a default image
         default_image_path = 'logos/Default-Logo.png'  # Adjust to a valid default image path
         image_path = {
-            'Federal Home Loan Bank of San Francisco': 'Federal-Home-Loan-Bank-Logo.png',
+            'Federal Home Loan Bank of San Francisco': 'logos/Federal-Home-Loan-Bank-Logo.png',
             'fannie mae': 'logos/Fannie-Mae-Logo.png',
             'First Republic Bank': 'logos/First-Republic-Bank-Logo.png',
             'apple company': 'logos/Apple-Logo.png',
