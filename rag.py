@@ -19,20 +19,6 @@ os.environ["GOOGLE_API_KEY"] = gemini_api_key
 # Initialize gemini embeddings
 gemini_embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
 
-# Load data
-data = pd.read_csv('results/Federal Home Loan Bank of San Francisco.csv')
-
-# Filter out unrelated content
-data = data[data['summaries'] != 'Not-related content.']
-data = data[data['summaries'] != 'Not-related content']
-data.reset_index(inplace=True)
-
-# Convert publish_date to datetime
-data['publish_date'] = pd.to_datetime(data['published date']).dt.date
-
-# Sort data by publish_date
-data.sort_values('publish_date', ascending=False, inplace=True)
-
 # Read topics from file
 with open('topics.txt', 'r') as f:
     topics = [line.strip() for line in f]
@@ -49,6 +35,20 @@ date_filters = {"Weekly": week_date, "Monthly": month_date, "Quarterly": quarter
 # Loop over topics
 for topic in topics:
     print(f"Processing topic: {topic}")
+
+    # Load data
+    data = pd.read_csv(f'{topic}.csv')
+
+    # Filter out unrelated content
+    data = data[data['summaries'] != 'Not-related content.']
+    data = data[data['summaries'] != 'Not-related content']
+    data.reset_index(inplace=True)
+
+    # Convert publish_date to datetime
+    data['publish_date'] = pd.to_datetime(data['published date']).dt.date
+
+    # Sort data by publish_date
+    data.sort_values('publish_date', ascending=False, inplace=True)
 
     # Iterate over date filters
     for period, filter_date in date_filters.items():
