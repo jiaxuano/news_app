@@ -1,13 +1,16 @@
 from google.cloud import storage
 
-def upload_to_gcs(bucket_name, source_file, destination_blob_name):
+
+def upload_to_gcs(bucket_name, source_file,
+                  destination_blob_name):
     """
     Uploads a file to a Google Cloud Storage bucket.
 
     Args:
         bucket_name (str): The name of the GCS bucket.
         source_file (str): The path to the local file to upload.
-        destination_blob_name (str): The name to give the file in the GCS bucket.
+        destination_blob_name (str):
+        The name to give the file in the GCS bucket.
 
     Returns:
         str: The public URL to access the uploaded file.
@@ -29,6 +32,7 @@ def upload_to_gcs(bucket_name, source_file, destination_blob_name):
 
     # Return the public URL of the uploaded file
     return blob.public_url
+
 
 # Example usage:
 if __name__ == "__main__":

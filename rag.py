@@ -5,8 +5,9 @@ from langchain_core.documents import Document
 from datetime import date, timedelta
 from langchain.prompts.chat import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
-from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
-from langchain_community.vectorstores import FAISS
+from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
+import langchain_community.vectorstores.FAISS
 import pickle
 
 # Load gemini API key
@@ -30,7 +31,8 @@ month_date = today - timedelta(days=30)
 week_date = today - timedelta(days=7)
 
 # Define date filters
-date_filters = {"Weekly": week_date, "Monthly": month_date, "Quarterly": quarter_date}
+date_filters = {"Weekly": week_date,
+                "Monthly": month_date, "Quarterly": quarter_date}
 
 # Loop over topics
 for topic in topics:
@@ -64,12 +66,16 @@ for topic in topics:
         # Iterate over filtered data
         for ind, row in tqdm(filtered_data.iterrows()):
             # Create document
-            doc = Document(page_content=row['content'], metadata=dict(publisher=row['publisher'], date=row['publish_date'],
-                                                                      url=row['url'], title=row['title'],
-                                                                      sentiment=row['default_sentiment']))
+            doc = Document(page_content=row['content'],
+                           metadata=dict(publisher=row['publisher'],
+                                         date=row['publish_date'],
+                                         url=row['url'], title=row['title'],
+                                         sentiment=row['default_sentiment']))
             # Append document and metadata to lists
             documents.append(doc)
-            metadatas.append(dict(publisher=row['publisher'], date=row['publish_date'], url=row['url'], title=row['title'],
+            metadatas.append(dict(publisher=row['publisher'],
+                                  date=row['publish_date'], url=row['url'],
+                                  title=row['title'],
                                   sentiment=row['default_sentiment']))
 
         # Create FAISS index
@@ -81,15 +87,19 @@ for topic in topics:
         # Iterate over filtered data
         for ind, row in tqdm(filtered_data.iterrows()):
             # Perform summarization process
-            summarization_prompt = create_summarization_prompt(row['content'], topic)
-            llm = ChatGoogleGenerativeAI(model="gemini-pro", google_api_key=gemini_api_key, temperature=0, top_p=1)
+            summarization_prompt = create_summarization_prompt(row['content'],
+                                                               topic)
+            llm = ChatGoogleGenerativeAI(model="gemini-pro",
+                                         google_api_key=gemini_api_key,
+                                         temperature=0, top_p=1)
             summarizer_chain = summarization_prompt | llm | StrOutputParser()
-            summary = summarizer_chain.invoke({"topic": topic, "content": row['content']})
+            summary = summarizer_chain.invoke({"topic": topic,
+                                               "content": row['content']})
 
             # Append summary to list
             summaries_period.append(summary)
 
-            # Do something with the summary, e.g., save it to a file or database
+            # Do something with the summary, save it to a file or database
             print(summary)
 
         # Create DataFrame for summaries
