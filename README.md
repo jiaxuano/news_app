@@ -45,6 +45,4 @@ You could automate the process by adding the following command in crontab -e
 - Run the model.py file to get the sentiment and summarization results for all the topics into their respective csv files under results folder
   ```python model.py```
 
-The Demo of the application:
-![ScreenRecording2024-04-21at10 37 38PM-ezgif com-video-to-gif-converter](https://github.com/vineethgupthab/news_app/assets/138868502/8eaf08f7-4fa5-4dd1-9c69-6379b136c53d)
 
